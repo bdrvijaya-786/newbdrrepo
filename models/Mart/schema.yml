@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Fact table combining orders, customer profiles, and product details."
+    columns:
+      - name: order_id
+        description: "Primary key of the order."
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key referencing customers."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('staging_customers')
+              field: customer_id
+
+      - name: status
+        description: "Order status."
+        tests:
+          - accepted_values:
+              values: ['DELIVERED', 'SHIPPED', 'PENDING', 'CANCELLED']
