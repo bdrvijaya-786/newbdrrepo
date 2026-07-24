@@ -1,15 +1,18 @@
 {{ config(materialized='table') }}
 
 with orders as (
-    select * from {{ ref('Staging_orders') }}
+    select *
+    from {{ ref('orders') }}
 ),
 
 customers as (
-    select * from {{ ref('Staging_customers') }}
+    select *
+    from {{ ref('customers') }}
 ),
 
 products as (
-    select * from {{ ref('Staging_products') }}
+    select *
+    from {{ ref('products') }}
 )
 
 select
@@ -26,5 +29,7 @@ select
     o.status,
     o.shipped_date
 from orders o
-left join customers c on o.customer_id = c.customer_id
-left join products p on o.product_id = p.product_id
+left join customers c
+    on o.customer_id = c.customer_id
+left join products p
+    on o.product_id = p.product_id
